@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .clearFloat:after {
+      content: '';
+      height: 0;
+      display: block;
+      visibility: hidden;
+      clear: both;
+    }
+
+    .clearFloat {
+      zoom: 1;
+    }
+
+    .phone {
+      /* background-image: url(img/phone.png); */
+      height: 460px;
+      background-repeat: no-repeat;
+      background-color: #f6f6f6;
+      border: 1px solid transparent;
+    }
+
+    .screen {
+      /* border: 1px solid red; */
+      text-align: center;
+      height: 340px;
+      margin-top: 56px;
+      position: relative;
+    }
+
+    .chat {
+      /* border: 1px solid blue; */
+      width: 194px;
+      position: absolute;
+      left: 18px;
+      top: -10px;
+      height: 340px;
+    }
+
+    .title {
+      /* border: 1px solid red; */
+      background-color: #ededed;
+      font-weight: bold;
+      margin-left: 2px;
+      margin-top: 2px;
+    }
+
+    .content {
+      border: 2px solid orange;
+      height: 290px;
+      overflow-y: auto;
+    }
+
+    .bottom {
+      width: 194px;
+      position: absolute;
+      bottom: 0;
+    }
+
+    .bottom input,
+    .bottom button {
+      float: left;
+    }
+
+    .bottom input {
+      width: 138px;
+      margin-right: 2px;
+      margin-left: 2px;
+      height: 17px;
+      outline: none;
+    }
+
+    .bottom button {
+      background-color: #3CB371;
+      color: #fff;
+      border-radius: 5px;
+      border: 1px solid #3CB371;
+      cursor: pointer;
+    }
+
+    .message {
+      border: 1px solid transparent;
+      height: 25px;
+      line-height: 25px;
+      margin-top: 6px;
+    }
+
+    .message img {
+      width: 26px;
+    }
+
+    .myInfo {
+      margin-right: 5px;
+    }
+
+    .myInfo p {
+      float: right;
+    }
+
+    .myInfo p:last-child {
+      border-radius: 5px;
+      background-color: #87CEFA;
+      margin-right: 0px;
+      display: block;
+      padding: 0 5px;
+    }
+
+    .rightTriangle {
+      width: 0px;
+      height: 0px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent transparent #87CEFA;
+      position: relative;
+      top: 6px;
+    }
+
+    .leftTriangle {
+      width: 0px;
+      height: 0px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent gold transparent transparent;
+      position: relative;
+      top: 6px;
+    }
+
+    .robotInfo {
+      margin-left: 5px;
+    }
+
+    .robotInfo p {
+      float: left;
+    }
+
+    .robotInfo p:last-child {
+      border-radius: 5px;
+      background-color: gold;
+      margin-right: 0px;
+      display: block;
+      padding: 0 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="phone">
+    <div class="screen">
+      <div class="chat">
+        <div class="title">复读机器人</div>
+        <div class="content">
+        </div>
+
+        <div class="bottom clearFloat">
+          <input type="text">
+          <button>&nbsp;&nbsp;发送&nbsp;&nbsp;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div
+    style="margin: 15px 12px; width: 375px; height: 700px;background-color: rgba(255, 255, 255, 1);border-radius: 18px;box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);z-index: 1001;overflow: hidden">
+    <div style="height: calc(100% - 60px - 52px);word-wrap: break-word;overflow: hidden;overflow-y: auto;">
+
+      <div class="PQ_wrapper" style="position: relative; margin: 8px 0; padding: 0 50px;">
+        <div style="color: rgba(98, 98, 98, 1); display: flex;justify-content: flex-end;">
+          <div
+            style="margin: 8px 0; display: inline-block; overflow: hidden; border-radius: 20px; border: 1px solid #00a4ec; word-wrap: break-word;">
+            <div style="position: relative; min-width: 260px;border: 1px solid green;">
+              <div style="padding: 10px 14px; white-space: pre-wrap">${record?.text}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        style="padding: 10px 14px; border: 1px solid #e1e5ea; color: #00a4ec; text-align: center; background-color: #fff; cursor: pointer">
+        ${btn.title}</div>
+
+    </div>
+
+    <div style="padding: 8px 16px; font-size: 15px; line-height: 20px; white-space: pre-wrap;border: 1px solid red;">
+      ${record?.text}</div>
+  </div>
+  </div>
+
+
+  <script>
+    var input = document.querySelector('input');
+    var button = document.querySelector('button');
+    var content = document.getElementsByClassName('content')[0];
+    button.onclick = function () {
+      // 点击按钮将input输入框的内容发送给机器人
+      var value = input.value;
+      if (value == '') return
+      input.value = ''
+      var myMessage = document.createElement('div');
+      myMessage.className = 'message';
+      myMessage.innerHTML = `
+            <div class="myInfo clearFloat">
+                <!-- 我发送的消息 -->
+                <p class="rightTriangle"></p>
+                <p>${value}</p>
+                </div>
+            `
+      // console.log(myMessage);
+      content.appendChild(myMessage);
+
+      // var robotMessage = document.createElement('div');
+      // robotMessage.className = 'message'
+      // robotMessage.innerHTML = `
+      //           <div class="robotInfo clearFloat">
+      //               <!-- 机器人发送的消息 -->
+      //               <p class="leftTriangle"></p>
+      //               <p>${value}</p>
+      //           </div>
+      //       `
+      // content.appendChild(robotMessage)
+    }
+  </script>
+</body>
+
+</html>
